@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  NotFoundException,
+} from '@nestjs/common';
 import { KundenService } from './kunden.service';
 import { CreateKundeDto } from './dto/create-kunde.dto';
 import { UpdateKundeDto } from './dto/update-kunde.dto';
@@ -20,16 +30,7 @@ export class KundenController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Kunde | null> {
-
-    try {
-      return this.kundenService.findOne(id);      
-    } catch (error) {
-      throw new NotFoundException('Kunde nicht gefunden', {
-        cause: new Error(),
-        description: 'Weiterer Fehlertext',
-      }); // 400 Error
-    }
-
+    return this.kundenService.findOne(id);
   }
 
   @Patch(':id')
