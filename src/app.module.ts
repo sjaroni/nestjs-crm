@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { KundenModule } from './kunden/kunden.module';
 import { KundenService } from './kunden/kunden.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Kunden } from './kunden/entities/kunden.entity';
+import { Kunde } from './kunden/entities/kunde.entity';
 
 @Module({
   imports: [KundenModule,
@@ -15,7 +15,7 @@ import { Kunden } from './kunden/entities/kunden.entity';
       username: 'crm',
       password: 'crm',
       database: 'crm',
-      entities: [Kunden],
+      entities: [Kunde],
       synchronize: false,
     }),
     KundenModule,

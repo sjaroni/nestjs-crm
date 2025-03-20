@@ -1,15 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { KundenService } from './kunden.service';
-import { CreateKundenDto } from './dto/create-kunden.dto';
-import { UpdateKundenDto } from './dto/update-kunden.dto';
+import { CreateKundeDto } from './dto/create-kunde.dto';
+import { UpdateKundeDto } from './dto/update-kunde.dto';
+import { Kunde } from './entities/kunde.entity';
 
 @Controller('kunden')
 export class KundenController {
   constructor(private readonly kundenService: KundenService) {}
 
   @Post()
-  create(@Body() createKundenDto: CreateKundenDto) {
-    return this.kundenService.create(createKundenDto);
+  create(@Body() createKundeDto: CreateKundeDto) {
+    return this.kundenService.create(createKundeDto);
   }
 
   @Get()
@@ -18,13 +19,22 @@ export class KundenController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.kundenService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Kunde | null> {
+
+    try {
+      return this.kundenService.findOne(id);      
+    } catch (error) {
+      throw new NotFoundException('Kunde nicht gefunden', {
+        cause: new Error(),
+        description: 'Weiterer Fehlertext',
+      }); // 400 Error
+    }
+
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateKundenDto: UpdateKundenDto) {
-    return this.kundenService.update(+id, updateKundenDto);
+  update(@Param('id') id: string, @Body() updateKundeDto: UpdateKundeDto) {
+    return this.kundenService.update(+id, updateKundeDto);
   }
 
   @Delete(':id')

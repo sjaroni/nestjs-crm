@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Geschlecht } from '../enums/geschlecht.enum';
 
 @Entity()
-export class Kunden {
+export class Kunde {
   @PrimaryGeneratedColumn()
   id: number;
 
